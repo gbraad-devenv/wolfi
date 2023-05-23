@@ -1,0 +1,20 @@
+FROM cgr.dev/chainguard/wolfi-base:latest
+
+RUN apk add \
+        bash \
+        git \
+        openssh-client \
+        openssh-server \
+        curl
+
+RUN apk add \
+        tailscale
+
+COPY scripts/tailscaled /etc/init.d/tailscaled
+RUN mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale
+
+# Add user with the expected ID (automated setup does not work atm)
+#RUN echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
+#    && adduser -u 1000 -G wheel -h /home/gbraad -s /bin/zsh -D gbraad
+
+#USER gbraad
